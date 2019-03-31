@@ -50,7 +50,6 @@ public class LauncyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_launcy);
 
         //for kakao API
-//        KakaoSDK.init(new GlobalApplication.KakaoSDKAdapter());
         callback = new SessionCallback();
         Session.getCurrentSession().addCallback(callback);
         Session.getCurrentSession().checkAndImplicitOpen();
@@ -261,14 +260,6 @@ public class LauncyActivity extends AppCompatActivity {
 
     }
 
-    private void redirectLoginActivity(){
-
-    }
-
-    private void redirectMainActivity(){
-
-    }
-
 
     private void requestMe() {
         Log.d(TAG, "requestMe");
@@ -310,13 +301,7 @@ public class LauncyActivity extends AppCompatActivity {
     //kakao API, LJH
 
 
-
-    protected void showErrorDialog(String message) {
-
-
-
-
-    }
+    protected void showErrorDialog(String message) { }
 
     // 값(Key Data) 삭제하기
     private void removePreferences(){

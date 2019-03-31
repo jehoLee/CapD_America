@@ -52,32 +52,33 @@ public class MainActivity extends AppCompatActivity {
 
 
         //for bottomNavigation
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.navigation);
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.frame_layout, friendListFragment).commitAllowingStateLoss();
+        transaction.replace(R.id.frame_layout, timeTableFragment).commitAllowingStateLoss();
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
-
                 //home , timeTable, friends, meeting
                 switch (item.getItemId()) {
-                    case R.id.navigation_home:
-                        transaction.replace(R.id.frame_layout,homeFragment).commitAllowingStateLoss();
+//                    case R.id.navigation_home:
+//                        transaction.replace(R.id.frame_layout,homeFragment).commitAllowingStateLoss();
+//                        break;
+                    case R.id.navigation_timetable:
+                        transaction.replace(R.id.frame_layout, timeTableFragment).commitAllowingStateLoss();
                         break;
                     case R.id.navigation_meeting:
-                        transaction.replace(R.id.frame_layout,timeTableFragment).commitAllowingStateLoss();
-                        break;
-                    case R.id.navigation_friends:
                         transaction.replace(R.id.frame_layout,meetingFragment).commitAllowingStateLoss();
                         break;
-                    case R.id.navigation_timetable:
-                        transaction.replace(R.id.frame_layout, friendListFragment).commitAllowingStateLoss();
+                    case R.id.navigation_friends:
+                        transaction.replace(R.id.frame_layout,friendListFragment).commitAllowingStateLoss();
                         break;
                 }
                 return true;
             }
         });
+
+
     }
 
 

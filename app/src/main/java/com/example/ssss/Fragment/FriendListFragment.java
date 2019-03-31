@@ -16,23 +16,40 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.ssss.R;
+import com.kakao.friends.AppFriendContext;
+import com.kakao.friends.response.AppFriendsResponse;
+import com.kakao.friends.response.model.AppFriendInfo;
+import com.kakao.kakaotalk.callback.TalkResponseCallback;
+import com.kakao.kakaotalk.v2.KakaoTalkService;
+import com.kakao.network.ErrorResult;
+import com.kakao.util.helper.log.Logger;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class FriendListFragment extends Fragment {
     SQLiteDatabase database;
     TextView textView;
 
+    final AppFriendContext friendContext = new AppFriendContext(true, 0, 10, "asc");
+//    final AppFriendInfo friendInfo = null;
+    private List<AppFriendInfo> items = new ArrayList<>();
+    private List<String> friends_nickname = new ArrayList<>();
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v= inflater.inflate(R.layout.fragment_friend_list,container,false);
-        get_list(v);
+        requestFriends(v);
+//        get_friends_list(v);
         return v;
     }
 
 
-    public void get_list(View v){
-        String[] items = new String[] {"철수", "영희", "바둑이","철구"};   //DB의 값들을 읽어옴.
-        ListAdapter adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,items);
+    public void get_friends_list(View v){
+        String[] items = new String[] {"철수", "영희", "바둑이","철구","dd"};   //DB의 값들을 읽어옴.
+        ListAdapter adapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_list_item_1,items);
         ListView listView = v.findViewById(R.id.listView);
         listView.setAdapter(adapter);
 
@@ -45,6 +62,87 @@ public class FriendListFragment extends Fragment {
                     }
                 }
         );
+    }
+
+    public void requestFriends(final View v) {
+        KakaoTalkService.getInstance().requestAppFriends(friendContext,
+                new TalkResponseCallback<AppFriendsResponse>() {
+                    @Override
+                    public void onNotKakaoTalkUser() {
+                        //KakaoToast.makeToast(getApplicationContext(), "not a KakaoTalk user", Toast.LENGTH_SHORT).show();
+                        Logger.e("onNotKakao");
+                    }
+
+                    @Override
+                    public void onSessionClosed(ErrorResult errorResult) {
+                        //redirectLoginActivity();
+                        Logger.e("onSessionClosed");
+                    }
+
+                    @Override
+                    public void onNotSignedUp() {
+                        //redirectSignupActivity();
+                        Logger.e("onNotSignededup");
+                    }
+
+                    @Override
+                    public void onFailure(ErrorResult errorResult) {
+                        Logger.e("onFailure: " + errorResult.toString());
+                    }
+
+                    @Override
+                    public void onSuccess(AppFriendsResponse result) {
+                        // 친구 목록
+                        Logger.e("onSucess " + result.getFriends().toString());
+//                        Logger.e(result.getFriends().get(0).getProfileNickname());
+//                        Logger.e(result.getFriends().get(1).getProfileNickname());
+//                        Logger.e(result.getFriends().get(2).getProfileNickname());
+
+//                        String[] items = new String[] {};
+
+//                        items.addAll(result.getFriends());
+//                        friends_nickname.addAll(result.getFriends().get(0).getProfileNickname());
+
+                        Iterator iter = result.getFriends().iterator();
+                        while (iter.hasNext()) {
+                            AppFriendInfo next = (AppFriendInfo)iter.next();
+                            friends_nickname.add(next.getProfileNickname());
+                            items.add(next);
+                        }
+
+//                        Iterator iterator = items.iterator();
+//                        while(iterator.hasNext()) {
+//                            friends_nickname.add(iterator.next().toString());
+//                            Logger.e("looping");
+//                        }
+
+                        if (friendContext.hasNext()) {
+                            requestFriends(v);
+                        } else {
+                            Logger.e("No next pages");
+                            // 모든 페이지 요청 완료.
+                            ListAdapter adapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_list_item_1,friends_nickname);
+                            ListView listView = v.findViewById(R.id.listView);
+                            listView.setAdapter(adapter);
+
+//                            Logger.e(friends_nickname.get(0) + friends_nickname.get(1) + friends_nickname.get(2));
+
+                            listView.setOnItemClickListener(
+                                    new AdapterView.OnItemClickListener() {
+                                        @Override
+                                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                            String item = String.valueOf(parent.getItemAtPosition(position));
+
+                                        }
+                                    }
+                            );
+                        }
+
+                        //ListAdapter adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,result.getFriends().toString());
+                        //lv.setAdapter(adapter);
+                        // context의 beforeUrl과 afterUrl이 업데이트 된 상태.
+                    }
+                });
     }
 
 
@@ -68,4 +166,9 @@ public class FriendListFragment extends Fragment {
     public void println(String data){
         textView.append(data + "\n");
     }
+
+
+
+
+
 }
