@@ -11,8 +11,6 @@
         android:id="@+id/frame_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
         android:text="@string/title_home"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -30,3 +28,5 @@
         app:menu="@menu/navigation" />
 
 </android.support.constraint.ConstraintLayout>
+
+    <!-- TODO 여기 전체를 RelativeLayout으로 바꾸고 FramLayout을 navigationview의 위에 붙이기 align일듯? -->

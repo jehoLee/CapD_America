@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.example.ssss.Fragment.EP_Fragment;
 import com.example.ssss.Fragment.FriendListFragment;
 import com.example.ssss.Fragment.HomeFragment;
 import com.example.ssss.Fragment.MeetingFragment;
@@ -31,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     private FriendListFragment friendListFragment = new FriendListFragment();
     private TimeTableFragment timeTableFragment = new TimeTableFragment();
     private MeetingFragment meetingFragment = new MeetingFragment();
+
+    private EP_Fragment epFragment = new EP_Fragment();
 
     private Long kakaoUserID;
     private String kakaoUserProfileImg;
@@ -65,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 //                        transaction.replace(R.id.frame_layout,homeFragment).commitAllowingStateLoss();
 //                        break;
                     case R.id.navigation_timetable:
-                        transaction.replace(R.id.frame_layout, timeTableFragment).commitAllowingStateLoss();
+                        transaction.replace(R.id.frame_layout, epFragment).commitAllowingStateLoss();
                         break;
                     case R.id.navigation_meeting:
                         transaction.replace(R.id.frame_layout,meetingFragment).commitAllowingStateLoss();

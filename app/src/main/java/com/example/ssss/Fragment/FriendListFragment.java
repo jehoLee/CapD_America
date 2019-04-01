@@ -94,11 +94,6 @@ public class FriendListFragment extends Fragment {
                     public void onSuccess(AppFriendsResponse result) {
                         // 친구 목록
                         Logger.e("onSucess " + result.getFriends().toString());
-//                        Logger.e(result.getFriends().get(0).getProfileNickname());
-//                        Logger.e(result.getFriends().get(1).getProfileNickname());
-//                        Logger.e(result.getFriends().get(2).getProfileNickname());
-
-//                        String[] items = new String[] {};
 
 //                        items.addAll(result.getFriends());
 //                        friends_nickname.addAll(result.getFriends().get(0).getProfileNickname());
@@ -110,12 +105,6 @@ public class FriendListFragment extends Fragment {
                             items.add(next);
                         }
 
-//                        Iterator iterator = items.iterator();
-//                        while(iterator.hasNext()) {
-//                            friends_nickname.add(iterator.next().toString());
-//                            Logger.e("looping");
-//                        }
-
                         if (friendContext.hasNext()) {
                             requestFriends(v);
                         } else {
@@ -124,8 +113,6 @@ public class FriendListFragment extends Fragment {
                             ListAdapter adapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_list_item_1,friends_nickname);
                             ListView listView = v.findViewById(R.id.listView);
                             listView.setAdapter(adapter);
-
-//                            Logger.e(friends_nickname.get(0) + friends_nickname.get(1) + friends_nickname.get(2));
 
                             listView.setOnItemClickListener(
                                     new AdapterView.OnItemClickListener() {
